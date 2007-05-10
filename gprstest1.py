@@ -4,8 +4,8 @@ import httplib
 import urllib
 
 project_id_str = u'153'
-table_name_prefix = u'CENS Lab test '
-files_to_test = ["1k", "10k", "50k", "100k"]
+g_table_name = u'Andrew Home'
+files_to_test = [u"1k", u"10k", u"50k", u"100k"]
 
 class Measurement:
     def __init__(self):
@@ -14,32 +14,32 @@ class Measurement:
         self.time_download = None
         self.response_status = None
         self.response_reason = None
-
+        self.file_size_bytes = None
 
 ##
 ## PUBLIC
 ##
     def measure(self, fname):
-        t1 = time.time()
-        r1 = self.download(fname)
+        fsize = 0
+        c1 = time.clock()
+        (r1, fsize) = self.download(fname)
+        c2 = time.clock()
+        cdiff = c2 - c1
         t2 = time.time()
-        self.update_state(t1, t2, r1)
+        self.update_state(cdiff, t2, r1, fsize)
 
 ##
 ## PUBLIC
 ##
-    def upload(self, project_id, table_name):
-        params = {}
-        params['email'] = 'adparker@gmail.com'
-        params['pw'] = 'ecopda'
-        params['data_string'] = self.sensorbase_str()
-        params['type'] = 'xml'
-        params['project_id'] = project_id
-        params['tableName'] = table_name
-        params = urllib.urlencode(params)
-        headers = {}
-        headers['Content-type']='application/x-www-form-urlencoded'
-        headers['Accept']='text/plain'
+    def uploadToSensorBase(self, project_id, table_name):
+        params = urllib.urlencode({'email'       : 'adparker@gmail.com',
+                                   'pw'          : 'ecopda',
+                                   'data_string' : self.sensorbase_str(),
+                                   'type'        : 'xml',
+                                   'project_id'  : project_id,
+                                   'tableName'   : table_name })
+        headers = {'Content-type' : 'application/x-www-form-urlencoded',
+                   'Accept'       : 'text/plain'}
         conn = httplib.HTTPConnection("sensorbase.org")
         conn.request("POST", "/alpha/upload.php", params, headers)
         response = conn.getresponse()
@@ -51,32 +51,34 @@ class Measurement:
 ## HELPER FUNCTIONS
 ##
     def download(self, fname):
-
         conn = httplib.HTTPConnection("www.lecs.cs.ucla.edu")
         conn.request("GET","/~adparker/test/"+fname)
         r1 = conn.getresponse()
         print r1.status, r1.reason
         data1 = r1.read()
+        bytes_read = len(data1)
         conn.close()
-        return r1
+        return (r1,bytes_read)
         
     """
     t1: start time;
     t2: end time;
     r1: response time;
     """
-    def update_state(self,t1,t2,r1):
+    def update_state(self,cdiff,t2,r1,fsize):
         # Convert t2 into the following format and store into self.time_date:
         # YYYY-MM-DD HH:MM:SS
-        gmt = time.gmtime(t2)
-        dtf_str = "%(year)-%(month)-%(day) %(hour):%(minute):%(second)"
+        gmt      = time.localtime(t2)
+        dtf_str  = "%(year)d-%(month)d-%(day)d %(hour)d:%(minute)d:%(second)d"
         dtf_dict = {"year":gmt[0], "month":gmt[1], "day":gmt[2],
                     "hour":gmt[3], "minute":gmt[4], "second":gmt[5]}
-        self.time_date = unicode(dtf_str % dtf_dict)
+        self.time_date       = unicode(dtf_str % dtf_dict)
         self.response_status = r1.status
         self.response_reason = r1.reason
-        self.time_download = t2 - t1
-        self.time_epoch = t2
+        self.time_download   = cdiff
+        print u"time_download " + str(self.time_download)
+        self.time_epoch      = t2
+        self.file_size_bytes = fsize
 
     """
     Returns a string that can be posted to sensorbase
@@ -90,11 +92,12 @@ class Measurement:
     """
     def sensorbase_str(self):
         output = u"<table><row>\n"
-        output += self.field_str("time_date", self.time_date)
-        output += self.field_str("time_download",self.time_download)
-        output += self.field_str("time_epoch",self.time_epoch)
-        output += self.field_str("response_status",self.response_status)
-        output += self.field_str("response_reason",self.response_reason)
+        output += self.field_str("time_date",       self.time_date)
+        output += self.field_str("time_download",   self.time_download)
+        output += self.field_str("time_epoch",      self.time_epoch)
+        output += self.field_str("response_status", self.response_status)
+        output += self.field_str("response_reason", self.response_reason)
+        output += self.field_str("file_size_bytes", self.file_size_bytes)
         output += '</row></table>\n'
         return output
 
@@ -112,13 +115,24 @@ class Measurement:
 
 
 def do_tests():
-    for f in files_to_test:
-        measurement = Measurement()
-        print "Fetching file " + f
-        measurement.measure(f)
-        table_name = table_name_prefix + f
-        print "Uploading to tableName: " + table_name
-        responseText = measurement.upload(project_id_str, )
-        print "SB response: " + responseText
+    first_f = f[0]
+    print "Fetching a file, the timing of which will be ignored..."
+    measurement = Measurement()
+    print  u"File: " + first_f
+    measurement.measure(f)
+    print "Done."
+
+    iteration = 0    
+    while(1):
+        iteration += 1
+        print u"*********\nITERATION: " + str(iteration)
+        print unicode(time.ctime())
+        for f in files_to_test:
+            measurement = Measurement()
+            print  u"File: " + f
+            measurement.measure(f)
+            responseText = measurement.uploadToSensorBase(project_id_str,
+                                                          g_table_name)
+            print g_table_name +":" + responseText
 
 do_tests()
