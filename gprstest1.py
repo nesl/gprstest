@@ -2,6 +2,8 @@ import appuifw
 import time
 import httplib
 import urllib
+import sysinfo
+import location
 
 project_id_str = u'153'
 g_table_name = u'Andrew Home'
@@ -15,12 +17,15 @@ class Measurement:
         self.response_status = None
         self.response_reason = None
         self.file_size_bytes = None
-
+        self.signal_dbm = None
+        self.signal_bars = None
 ##
 ## PUBLIC
 ##
     def measure(self, fname):
         fsize = 0
+        self.signal_bars = sysinfo.signal_bars()
+        self.signal_dbm = sysinfo.signal_dbm()
         c1 = time.clock()
         (r1, fsize) = self.download(fname)
         c2 = time.clock()
@@ -98,6 +103,9 @@ class Measurement:
         output += self.field_str("response_status", self.response_status)
         output += self.field_str("response_reason", self.response_reason)
         output += self.field_str("file_size_bytes", self.file_size_bytes)
+        output += self.field_str("signal_bars", self.signal_bars)
+        output += self.field_str("signal_dbm", self.signal_dbm)
+        
         output += '</row></table>\n'
         return output
 
@@ -115,11 +123,11 @@ class Measurement:
 
 
 def do_tests():
-    first_f = f[0]
+    first_f = files_to_test[0]
     print "Fetching a file, the timing of which will be ignored..."
     measurement = Measurement()
     print  u"File: " + first_f
-    measurement.measure(f)
+    measurement.measure(first_f)
     print "Done."
 
     iteration = 0    
@@ -127,6 +135,9 @@ def do_tests():
         iteration += 1
         print u"*********\nITERATION: " + str(iteration)
         print unicode(time.ctime())
+        print u'signal_bars():' + str(sysinfo.signal_bars())
+        print u'signal_dbm():' + str(sysinfo.signal_dbm())
+        print u'location:' + str(location.gsm_location())
         for f in files_to_test:
             measurement = Measurement()
             print  u"File: " + f
