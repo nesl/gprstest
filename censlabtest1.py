@@ -129,21 +129,27 @@ def do_tests():
     print  u"File: " + first_f
     measurement.measure(first_f)
     print "Done."
-
+    exceptions = 0
     iteration = 0    
     while(1):
         iteration += 1
         print u"*********\nITERATION: " + str(iteration)
-        print unicode(time.ctime())
-        print u'signal_bars():' + str(sysinfo.signal_bars())
-        print u'signal_dbm():' + str(sysinfo.signal_dbm())
-        print u'location:' + str(location.gsm_location())
         for f in files_to_test:
-            measurement = Measurement()
-            print  u"File: " + f
-            measurement.measure(f)
-            responseText = measurement.uploadToSensorBase(project_id_str,
-                                                          g_table_name)
-            print g_table_name +":" + responseText
+            try:
+                print unicode(time.ctime())
+                print u'exceptions: ' + str(exceptions)
+                print u'signal_bars():' + str(sysinfo.signal_bars())
+                print u'signal_dbm():' + str(sysinfo.signal_dbm())
+                print u'location:' + str(location.gsm_location())
+                measurement = Measurement()
+                print  u"File: " + f
+                measurement.measure(f)
+                responseText = measurement.uploadToSensorBase(project_id_str,
+                                                              g_table_name)
+                print g_table_name +":" + responseText
+            except Exception, e:
+                print e
+                exceptions = exceptions + 1
+                
 
 do_tests()
