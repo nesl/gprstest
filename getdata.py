@@ -19,7 +19,7 @@ def getstuff(table_name, iteration=0, length=500):
                                "ORDER BY time_epoch ASC", \
                                iteration * length, length,
                                "csv")
-    print rows
+    print value
     # rows = value.split('\n')
 #     allrows = []
 #     for row in rows:
