@@ -14,9 +14,10 @@ from SOAPpy import WSDL
 def getstuff(table_name, iteration=0, length=500):
     soapClient = SOAPpy.SOAPProxy("http://sensorbase.org/soap/dataGet.php")
     value = soapClient.getData('adparker@gmail.com', 'ecopda', \
-                               "file_size_bytes,response_reason,response_status,signal_bars,signal_dbm,time_data,time_download,time_epoch", \
-                               "p_153_%s"%table_name, \
-                               "ORDER BY time_epoch ASC", \
+                               "file_size_bytes,response_reason,response_status,signal_bars,signal_dbm,time_date,time_download,time_epoch", \
+                               #"time_epoch",
+                               "p_153_%s"%table_name, 
+                               "1 ORDER BY time_epoch ASC", \
                                iteration * length, length,
                                "csv")
     print value
@@ -39,6 +40,10 @@ def getstuff(table_name, iteration=0, length=500):
 
 
 def main():
+    if (len(sys.argv) < 2): 
+        print "\nUsage: getdata.py [table_name]\n"
+        exit()
+        
     iteration = 0
     table_name = sys.argv[1]
     print "table_name is: " + table_name
