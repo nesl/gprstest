@@ -41,7 +41,7 @@ def getstuff(table_name, iteration=0, length=500):
 def main():
     iteration = 0
     table_name = sys.argv[1]
-    print "table_name is: " + user_name
+    print "table_name is: " + table_name
     while(True):
         if (getstuff(table_name, iteration) == 0):
             break
