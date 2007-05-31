@@ -6,6 +6,7 @@ import urllib
 import commands
 import sys
 from SOAPpy import WSDL
+import string
 
 #print "Command Input"
 #for cmdInput in sys.argv:
@@ -20,7 +21,9 @@ def getstuff(table_name, iteration=0, length=500):
                                "1 ORDER BY time_epoch ASC", \
                                iteration * length, length,
                                "csv")
-    print value
+    if (value and not value.isspace()):
+       print value
+    return value
     # rows = value.split('\n')
 #     allrows = []
 #     for row in rows:
@@ -48,9 +51,15 @@ def main():
     table_name = sys.argv[1]
     print "table_name is: " + table_name
     while(True):
-        if (getstuff(table_name, iteration) == 0):
-            break
-        iteration += 1
+#        if (getstuff(table_name, iteration) == "\n"):
+#            print "time to quit"
+#	    break
+	mystring = getstuff(table_name, iteration)
+	if (not mystring):
+	   break
+	elif (mystring.isspace()):
+	   break
+	iteration += 1
 
 if __name__ == "__main__":
     main()
