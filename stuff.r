@@ -187,3 +187,52 @@ sd(ww51650k$time_download,100)
 sd(ww51750k$time_download,100)
 sd(ww51850k$time_download,100)
 
+### andrew home
+xlim=c(1180132143, 1180569030)
+ahome <- read.table("andrewhome.txt", header=TRUE, sep=",")
+
+
+ahome1k <- ahome[ahome$file_size_bytes == 1024,]
+ahome10k <- ahome[ahome$file_size_bytes == 10240,]
+ahome50k <- ahome[ahome$file_size_bytes == 51200,]
+ahome100k <- ahome[ahome$file_size_bytes == 102400,]
+
+plot(ahome1k$time_epoch, ahome1k$time_download, col="black", alpha=1,xlim=xlim, ylim=c(0,15))
+points(ahome100k$time_epoch, ahome100k$time_download, col="blue")
+points(ahome50k$time_epoch, ahome50k$time_download, col="red")
+points(ahome10k$time_epoch, ahome10k$time_download, col="green")
+points(ahome$time_epoch, ahome$signal_dbm/10, col="yellow")
+
+plot.new()
+plot(ahome$time_epoch, ahome$signal_dbm/10, col="blue")
+points(ahome50k$time_epoch, ahome50k$time_download, col="red", ylim=c(0,15))
+hist(ahome50k$time_download,100,ylim=c(0,100), xlim=c(0,15))
+mean(ahome50k$time_download)
+sd(ahome50k$time_download,100)
+
+sum(ahome$file_size_bytes)/1024
+
+### andrew laptop
+xlim=c(1180132143, 1180469030)
+alaptop <- read.table("andrewlaptop.txt", header=TRUE, sep=",")
+
+
+alaptop1k <- alaptop[alaptop$file_size_bytes == 1024,]
+alaptop10k <- alaptop[alaptop$file_size_bytes == 10240,]
+alaptop50k <- alaptop[alaptop$file_size_bytes == 51200,]
+alaptop100k <- alaptop[alaptop$file_size_bytes == 102400,]
+
+plot(alaptop1k$time_epoch, alaptop1k$time_download, col="black", alpha=1,xlim=xlim, ylim=c(0,5))
+points(alaptop100k$time_epoch, alaptop100k$time_download, col="blue")
+points(alaptop50k$time_epoch, alaptop50k$time_download, col="red")
+points(alaptop10k$time_epoch, alaptop10k$time_download, col="green")
+points(alaptop$time_epoch, alaptop$signal_dbm/10, col="yellow")
+
+plot.new()
+plot(alaptop$time_epoch, alaptop$signal_dbm/10, col="blue")
+points(alaptop50k$time_epoch, alaptop50k$time_download, col="red", ylim=c(0,15))
+hist(alaptop50k$time_download,100,ylim=c(0,100), xlim=c(0,15))
+mean(alaptop50k$time_download)
+sd(alaptop50k$time_download,100)
+
+sum(alaptop$file_size_bytes)/1024
