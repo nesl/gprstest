@@ -64,9 +64,9 @@ barplot2(x)
 
 ################date and time objects
 date.and.time = matrix(unlist(strsplit(as.character(ch100k$time_date)," ")), ncol = 2, byrow=TRUE)
-chrons = chron(date.and.time[,1], date.and.time[,2])
+chrons = chron(date.and.time[,1], date.and.time[,2], format=c(dates="y-m-d", times="h:m:s"))
 
-plot(ch100k$time_epoch, ch100k$time_download, col="black", ylim=c(0,25))
+plot(chrons, ch100k$time_download, col="black", ylim=c(0,25), xaxt='n')
 axis(1,ticks,as.character(chron(ticks, out.format=c('m/d/y', 'h:m:s'))))
 
 
