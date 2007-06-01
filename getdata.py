@@ -12,10 +12,12 @@ import string
 #for cmdInput in sys.argv:
 #       print cmdInput
 
+HEADER="file_size_bytes,response_reason,response_status,signal_bars,signal_dbm,time_date,time_download,time_epoch"
+
 def getstuff(table_name, iteration=0, length=500):
     soapClient = SOAPpy.SOAPProxy("http://sensorbase.org/soap/dataGet.php")
     value = soapClient.getData('adparker@gmail.com', 'ecopda', \
-                               "file_size_bytes,response_reason,response_status,signal_bars,signal_dbm,time_date,time_download,time_epoch", \
+                               HEADER, \
                                #"time_epoch",
                                "p_153_%s"%table_name, 
                                "1 ORDER BY time_epoch ASC", \
@@ -49,7 +51,8 @@ def main():
         
     iteration = 0
     table_name = sys.argv[1]
-    print "table_name is: " + table_name
+#    print "table_name is: " + table_name
+    print HEADER
     while(True):
 #        if (getstuff(table_name, iteration) == "\n"):
 #            print "time to quit"
