@@ -1,0 +1,1 @@
+file_size_bytes,response_reason,response_status,signal_bars,signal_dbm,time_date,time_download,time_epoch
