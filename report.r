@@ -22,6 +22,7 @@ ww517 <- get.split.table("ww_5_17.txt")## Westwood 5/17
 ww518 <- get.split.table("ww_5_18.txt") ## Westwood 5/18
 
 
+
 t <- rbind.tables(ahome1, ahome2)
 t <- rbind.tables(t, ahome3)
 attach(t$k10)
