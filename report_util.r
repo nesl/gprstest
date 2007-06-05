@@ -1,4 +1,5 @@
 library(chron)
+library(quantreg)
 
 get.table <- function(table.name) {
   table <- read.table(table.name, header = TRUE,sep = ",")
@@ -35,7 +36,7 @@ split.table <- function(table, start.chron = 0, end.chron = Inf) {
 }
 
 add.resid <- function(table) {
-  resids <- resid(lm(table$time_download ~ table$chron))
+  resids <- resid(rq(table$time_download ~ table$chron))
   table <- transform(table, resid = resids)
   return (table)
 }
@@ -58,3 +59,10 @@ rbind.tables <- function(t1, t2) {
 }
 
 
+plot.all <- function(foo1, foo10, foo50, foo100, lx, ly, main) {
+  plot(foo100, xlab = "Date", ylab = "Download time (seconds)", col="red", main=main, pch=19,ylim=c(0,11))
+points(foo50, col = "blue", pch=19)
+points(foo10, col = "green", pch=19)
+points(foo1, col = "black", pch=19)
+  legend(lx, ly, legend = rev(c("1k", "10k","50k","100k")), fill=rev(c("black","green","blue","red")), bg="white")
+}
