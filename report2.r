@@ -122,3 +122,9 @@ boxplot(dl.hour.foo,ylim=c(-5,25), xlab = "Hour of Day", ylab = "Residual Downlo
 
 ##
  
+
+## Another boxplot
+bpl=boxplot(dl.hour.foo,ylim=c(-5,30), xlab = "Hour of Day", ylab = "Residual Download Time (seconds)", main = "")
+plot(bpl$stats[3,], pch=19, ylim=c(-1.0, 2), main="Median + confidence interval")
+lines(bpl$conf[1,])
+lines(bpl$conf[2,])
