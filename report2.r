@@ -123,6 +123,11 @@ boxplot(dl.hour.foo,ylim=c(-5,25), xlab = "Hour of Day", ylab = "Residual Downlo
 ##
  
 
+plot.new(); for (i in (levels(ahome1$k1$hour))) {lines(ahome1$k1$resid[ahome1$k1$hour == i] ~ ahome1$k1$minute[ahome1$k1$hour == i])}
+
+plot(ahome1$k1$resid[ahome1$k1$hour == 1] ~ ahome1$k1$minute[ahome1$k1$hour == 1])}
+
+
 ################ boxplot data as countours, Hour of day trends
 bpl=boxplot(dl.hour.foo,ylim=c(-5,25), xlab = "Hour of Day", ylab = "Residual Download Time (seconds)", main = "")
 plot(bpl$stats[3,], pch=19, ylim=c(-9.0, 11), main="Residual Download Times", xlab="Hour of the Day", ,ylab="Residual (seconds)", type="o")
@@ -202,4 +207,5 @@ legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
 						"   1st Quartile",
 					"Smallest Non-outlier (> Median - 1.5*IQR)"),
        fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
+
 
