@@ -16,7 +16,7 @@ censlab515 <- get.split.table("censlab_5_15_static.txt") ## CENS 5/15
 censlab522 <- get.split.table("censlab_5_22.txt") ## CENS Lab 5/22
 censlabwifi <- get.split.table("censlabwifi.txt") ## CENS Lab WIFI
 chome <- get.split.table("chris_home_gprs.txt") ## Chris Home GPRS
-lablaptopgrps <- get.split.table("lab_laptop_gprs.txt") # lab laptop gprs
+lablaptopgprs <- get.split.table("lab_laptop_gprs.txt") # lab laptop gprs
 labwifi1k <- get.split.table("lab_wifi_test_1k.txt") # wifi test 1k
 valley515 <- get.split.table("valleydata_5_15.txt") # Valley 5/15
 valley520 <- get.split.table("valley_5_20.txt") ## Valley 5/20

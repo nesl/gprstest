@@ -21,7 +21,8 @@ get.table <- function(table.name) {
                      weekday = weekday,
                      hour = hour,
                      minute = minute,
-                     second = second)
+                     second = second,
+                     phone_id = seq(1:length(chrons)))
   return(table)
 }
 
@@ -59,8 +60,8 @@ rbind.tables <- function(t1, t2) {
 }
 
 
-plot.all <- function(foo1, foo10, foo50, foo100, lx, ly, main) {
-  plot(foo100, xlab = "Date", ylab = "Download time (seconds)", col="red", main=main, pch=19,ylim=c(0,11))
+plot.all <- function(foo1, foo10, foo50, foo100, lx, ly, main, ylim=c(0,11)) {
+  plot(foo100, xlab = "Date", ylab = "Download time (seconds)", col="red", main=main, pch=19,ylim=ylim)
 points(foo50, col = "blue", pch=19)
 points(foo10, col = "green", pch=19)
 points(foo1, col = "black", pch=19)
