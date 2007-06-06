@@ -155,8 +155,35 @@ legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
 dl.minute = t$k100$resid ~ t$k100$minute
 bpl=boxplot(dl.minute)
 
-plot(bpl$stats[3,], pch=19, ylim=c(-6.0, 11), main="Residual Download Times (100Kb file)", xlab="Minute of the Hour", ylab="Residual (seconds)", type="o", xaxt="n")
+plot(bpl$stats[3,], pch=19, ylim=c(-6.0, 7), main="Residual Download Times (100Kb file)", xlab="Minute of the Hour", ylab="Residual (seconds)", type="o", xaxt="n")
 axis(1,seq(1,60,1), as.character(seq(0,59,1)))
+lines(bpl$stats[4,])
+lines(bpl$stats[2,])
+lines(bpl$stats[5,], col="gray")
+lines(bpl$stats[1,], col="gray")
+lines(bpl$stats[3,], col="red")
+lines(bpl$conf[1,], col="blue")
+lines(bpl$conf[2,], col="blue")
+lines(bpl$stats[3,], col="red", lw="2")
+points(bpl$stats[3,], pch=19)
+
+legend(.5, 6.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+                                  "   3rd Quartile",
+                                  "      Upper 95% Confidence Interval",
+						"         Median",
+						"      Lower 95% Confidence Interval",
+						"   1st Quartile",
+					"Smallest Non-outlier (> Median - 1.5*IQR)"),
+       fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
+
+
+#################### Let's look at censlab data now
+
+##make sure censlab data has been loaded (censlab)
+dl.hour = enslab$k100$resid ~ censlab$k100$hour
+bpl=boxplot(dl.hour)
+plot(bpl$stats[3,], pch=19, ylim=c(-2.0, 4), main="Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
+axis(1,seq(1,24,1), as.character(seq(0,23,1)))
 lines(bpl$stats[4,])
 lines(bpl$stats[2,])
 lines(bpl$stats[5,], col="gray")
@@ -175,3 +202,4 @@ legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
 						"   1st Quartile",
 					"Smallest Non-outlier (> Median - 1.5*IQR)"),
        fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
+
