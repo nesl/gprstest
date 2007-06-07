@@ -272,7 +272,7 @@ bpl.weekend=boxplot(dl.weekend.hour)
 dl.weekday.hour <- test_Weekday$resid ~ test_Weekday$hour
 bpl.weekday=boxplot(dl.weekday.hour)
 
-plot(bpl.weekend$stats[3,], pch=19, ylim=c(-2.0, 4), main="Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
+plot(bpl.weekend$stats[3,], pch=19, ylim=c(-2.0, 4), main="Weekend Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
 axis(1,seq(1,24,1), as.character(seq(0,23,1)))
 lines(bpl.weekend$stats[4,])
 lines(bpl.weekend$stats[2,])
@@ -284,7 +284,7 @@ lines(bpl.weekend$conf[2,], col="blue")
 lines(bpl.weekend$stats[3,], col="red", lw="2")
 points(bpl.weekend$stats[3,], pch=19)
 
-legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+legend(.5, 4, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
                                   "   3rd Quartile",
                                   "      Upper 95% Confidence Interval",
 						"         Median",
@@ -294,7 +294,7 @@ legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
        fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
 
 
-plot(bpl.weekday$stats[3,], pch=19, ylim=c(-2.0, 4), main="Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
+plot(bpl.weekday$stats[3,], pch=19, ylim=c(-2.0, 4), main="Weekday Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
 axis(1,seq(1,24,1), as.character(seq(0,23,1)))
 lines(bpl.weekday$stats[4,])
 lines(bpl.weekday$stats[2,])
@@ -306,7 +306,7 @@ lines(bpl.weekday$conf[2,], col="blue")
 lines(bpl.weekday$stats[3,], col="red", lw="2")
 points(bpl.weekday$stats[3,], pch=19)
 
-legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+legend(.5, 4, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
                                   "   3rd Quartile",
                                   "      Upper 95% Confidence Interval",
 						"         Median",
