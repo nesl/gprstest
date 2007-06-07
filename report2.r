@@ -80,7 +80,7 @@ ahome3 <- get.split.table("ahome.txt",start.chron=13663.80, end.chron=13664.26)
 ahome4 <- get.split.table("ahome.txt",start.chron=13665.90, end.chron=13666.64)
 ahome5 <- get.split.table("ahome.txt",start.chron=13666.69, end.chron=13667.56)
 ahome6 <- get.split.table("ahome.txt",start.chron=13668.26, end.chron=Inf)
-ww516 <- get.split.table("ww_5_16.txt",fix=T) ## Westwood 5/16
+ww516 <- get.split.table("ww_5_16.txt") ## Westwood 5/16
 ww517 <- get.split.table("ww_5_17.txt")## Westwood 5/17
 ww518 <- get.split.table("ww_5_18.txt") ## Westwood 5/18
 lablaptopgprs <- get.split.table("lab_laptop_gprs.txt") # lab laptop gprs
@@ -115,6 +115,7 @@ boxplot(dl.hour.weekday.foo,
         xlab = "Hour of the Week",
         ylab = "Residual Download Time (seconds)",
         main = "Residuals vs. Hour over the Week at Residential Site 1")
+
 ## Boxplot resid ~ hour
 #t <- rbind.tables(ahome1, ahome2)
 dl.hour.foo <- t$k100$resid ~ t$k100$hour
@@ -125,9 +126,9 @@ boxplot(dl.hour.foo,ylim=c(-5,25), xlab = "Hour of Day", ylab = "Residual Downlo
 
 ################ boxplot data as countours, Hour of day trends
 bpl=boxplot(dl.hour.foo,ylim=c(-5,25), xlab = "Hour of Day", ylab = "Residual Download Time (seconds)", main = "")
-plot(bpl$stats[3,], pch=19, ylim=c(-9.0, 11), main="Residual Download Times", xlab="Hour of the Day", ,ylab="Residual (seconds)", type="o")
+plot(bpl$stats[3,], pch=19, ylim=c(-9.0, 13), main="Residential 1: Residual Download Times", xlab="Hour of the Day", ,ylab="Residual (seconds)", type="o")
 
-plot(bpl$stats[3,], pch=19, ylim=c(-8.0, 11), main="Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
+plot(bpl$stats[3,], pch=19, ylim=c(-6.0, 13), main="Residential 1: Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
 axis(1,seq(1,24,1), as.character(seq(0,23,1)))
 lines(bpl$stats[4,])
 lines(bpl$stats[2,])
@@ -139,7 +140,7 @@ lines(bpl$conf[2,], col="blue")
 lines(bpl$stats[3,], col="red", lw="2")
 points(bpl$stats[3,], pch=19)
 
-legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+legend(.5, 12.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
                                   "   3rd Quartile",
                                   "      Upper 95% Confidence Interval",
 						"         Median",
@@ -155,7 +156,7 @@ legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
 dl.minute = t$k100$resid ~ t$k100$minute
 bpl=boxplot(dl.minute)
 
-plot(bpl$stats[3,], pch=19, ylim=c(-6.0, 7), main="Residual Download Times (100Kb file)", xlab="Minute of the Hour", ylab="Residual (seconds)", type="o", xaxt="n")
+plot(bpl$stats[3,], pch=19, ylim=c(-6.0, 13), main="Residential 1: Residual Download Times (100Kb file)", xlab="Minute of the Hour", ylab="Residual (seconds)", type="o", xaxt="n")
 axis(1,seq(1,60,1), as.character(seq(0,59,1)))
 lines(bpl$stats[4,])
 lines(bpl$stats[2,])
@@ -167,7 +168,7 @@ lines(bpl$conf[2,], col="blue")
 lines(bpl$stats[3,], col="red", lw="2")
 points(bpl$stats[3,], pch=19)
 
-legend(.5, 6.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+legend(.5, 12.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
                                   "   3rd Quartile",
                                   "      Upper 95% Confidence Interval",
 						"         Median",
@@ -180,9 +181,10 @@ legend(.5, 6.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
 #################### Let's look at censlab data now
 
 ##make sure censlab data has been loaded (censlab)
-dl.hour = enslab$k100$resid ~ censlab$k100$hour
+censlab <- get.split.table("censlab.txt")  ## Andrew's Desk
+dl.hour = censlab$k100$resid ~ censlab$k100$hour
 bpl=boxplot(dl.hour)
-plot(bpl$stats[3,], pch=19, ylim=c(-2.0, 4), main="Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
+plot(bpl$stats[3,], pch=19, ylim=c(-6.0, 13), main="UCLA: Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
 axis(1,seq(1,24,1), as.character(seq(0,23,1)))
 lines(bpl$stats[4,])
 lines(bpl$stats[2,])
@@ -194,7 +196,7 @@ lines(bpl$conf[2,], col="blue")
 lines(bpl$stats[3,], col="red", lw="2")
 points(bpl$stats[3,], pch=19)
 
-legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+legend(.5, 12.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
                                   "   3rd Quartile",
                                   "      Upper 95% Confidence Interval",
 						"         Median",
@@ -203,6 +205,51 @@ legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
 					"Smallest Non-outlier (> Median - 1.5*IQR)"),
        fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
 
+
+
+##########################################
+## Factorial analysis
+
+ahome1 <- get.split.table("ahome.txt", start.chron=13643.67, end.chron = 13646.42) # Andrew Home GPRS
+ahome2 <- get.split.table("ahome.txt", start.chron=13658.62, end.chron=13663.80)
+ahome3 <- get.split.table("ahome.txt",start.chron=13663.80, end.chron=13664.26)
+ahome4 <- get.split.table("ahome.txt",start.chron=13665.90, end.chron=13666.64)
+ahome5 <- get.split.table("ahome.txt",start.chron=13666.69, end.chron=13667.56)
+ahome6 <- get.split.table("ahome.txt",start.chron=13668.26, end.chron=Inf)
+ww516 <- get.split.table("ww_5_16.txt") ## Westwood 5/16
+ww517 <- get.split.table("ww_5_17.txt")## Westwood 5/17
+ww518 <- get.split.table("ww_5_18.txt") ## Westwood 5/18
+lablaptopgprs <- get.split.table("lab_laptop_gprs.txt") # lab laptop gprs
+valley515 <- get.split.table("valleydata_5_15.txt") # Valley 5/15
+valley520 <- get.split.table("valley_5_20.txt") ## Valley 5/20
+chome <- get.split.table("chris_home_gprs.txt") ## Chris Home GPRS
+
+t <- rbind.tables(ahome2, ahome3)
+t <- rbind.tables(t, ahome4)
+t <- rbind.tables(t, ahome5)
+t <- rbind.tables(t, ahome6)
+t <- rbind.tables(t, ahome1)
+t <- rbind.tables(t,ww516)
+t <- rbind.tables(t,ww517)
+t <- rbind.tables(t,ww518)
+t <- rbind.tables(t,lablaptopgprs)
+t <- rbind.tables(t,valley515)
+#t <- rbind.tables(t,valley520)
+doit(t$k100)
+
+################# SLIDE ##################
+> qqnorm(t$k100$resid, main="QQ plot of 100k residuals at Residential 1")
+hist(t$k100$resid,200,xlim=c(-5,40),main="Histogram of 100k residuals at Residential 1", xlab="Residual download time (seconds)")
+
+################# SLIDE ####################
+alaptop <- get.split.table("alaptop.txt") ## Andrew Home DSL
+plot(resid ~ chron, data=alaptop$k100, col = "red", ylim=c(-5,30), pch=19, xlim=range(alaptop$k100$chron), type="n", main="Comparison between DSL and GPRS 100k", xlab="Date",ylab="Residuals (seconds)")
+points(resid ~ chron, data=t$k100, col = "red", pch=19)
+points(resid ~ chron, data=alaptop$k100, col = "blue", pch=19)
+legend(range(alaptop$k100$chron)[1], 30, legend=c("GPRS","DSL"),fill=c("red","blue"),bg="white")
+
+
+plot.all(foo1,foo10,foo50,foo100,lx=chron(13666.13), ly = 10, main="Trouble-Shooting (Laptop using phone as a modem)")
 
 ##################### Lets look at weekends and weekdays separately
 

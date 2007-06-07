@@ -15,6 +15,8 @@ get.table <- function(table.name) {
   hour <- hours(chrons)
   minute <- minutes(chrons)
   second <- seconds(chrons)
+  daytime <- hour >= 7 & hour < 19
+  weekend <- (weekday == "Sat") | (weekday == "Sun") | (weekday == "Fri")
   table <- transform(table,
                      chron = chrons,
                      day = days,
@@ -22,7 +24,9 @@ get.table <- function(table.name) {
                      hour = hour,
                      minute = minute,
                      second = second,
-                     phone_id = seq(1:length(chrons)))
+                     phone_id = seq(1:length(chrons)),
+                     daytime = daytime,
+                     weekend = weekend)
   return(table)
 }
 
@@ -68,8 +72,17 @@ points(foo1, col = "black", pch=19)
   legend(lx, ly, legend = rev(c("1k", "10k","50k","100k")), fill=rev(c("black","green","blue","red")), bg="white")
 }
 
-
+doit <- function(data) {
+  fit <- lm(resid ~ daytime + weekend + signal_dbm + daytime:weekend, data = data)
+  a <- anova(fit)
+  ss <- a[2][[1]]
+  sst <- sum(ss)
+  print(ss/sst)
+  print(a[1])
+  plot(resid ~ chron, data = t$k100)
+}
 niceplot <- function(data,title){
+
 	plot(data$stats[3,], pch=19, ylim=c(-2.0, 4), main=title, xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
 	axis(1,seq(1,24,1), as.character(seq(0,23,1)))
 	lines(data$stats[4,])
