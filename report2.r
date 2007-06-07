@@ -123,11 +123,6 @@ boxplot(dl.hour.foo,ylim=c(-5,25), xlab = "Hour of Day", ylab = "Residual Downlo
 ##
  
 
-plot.new(); for (i in (levels(ahome1$k1$hour))) {lines(ahome1$k1$resid[ahome1$k1$hour == i] ~ ahome1$k1$minute[ahome1$k1$hour == i])}
-
-plot(ahome1$k1$resid[ahome1$k1$hour == 1] ~ ahome1$k1$minute[ahome1$k1$hour == 1])}
-
-
 ################ boxplot data as countours, Hour of day trends
 bpl=boxplot(dl.hour.foo,ylim=c(-5,25), xlab = "Hour of Day", ylab = "Residual Download Time (seconds)", main = "")
 plot(bpl$stats[3,], pch=19, ylim=c(-9.0, 11), main="Residual Download Times", xlab="Hour of the Day", ,ylab="Residual (seconds)", type="o")
@@ -207,5 +202,270 @@ legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
 						"   1st Quartile",
 					"Smallest Non-outlier (> Median - 1.5*IQR)"),
        fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
+
+
+##################### Lets look at weekends and weekdays separately
+
+test_Fri=t$k100[t$k100[,11]=="Fri",]
+test_Sat=t$k100[t$k100[,11]=="Sat",]
+test_Sun=t$k100[t$k100[,11]=="Sun",]
+test_Weekend=rbind(test_Fri, test_Sat)
+test_Weekend=rbind(test_Weekend, test_Sun)
+
+test_Mon=t$k100[t$k100[,11]=="Mon",]
+test_Tue=t$k100[t$k100[,11]=="Tue",]
+test_Wed=t$k100[t$k100[,11]=="Wed",]
+test_Thu=t$k100[t$k100[,11]=="Thu",]
+test_Weekday=rbind(test_Mon, test_Tue)
+test_Weekday=rbind(test_Weekday, test_Wed)
+test_Weekday=rbind(test_Weekday, test_Thu)
+
+dl.weekend.hour <- test_Weekend$resid ~ test_Weekend$hour
+bpl.weekend=boxplot(dl.weekend.hour)
+dl.weekday.hour <- test_Weekday$resid ~ test_Weekday$hour
+bpl.weekday=boxplot(dl.weekday.hour)
+
+plot(bpl.weekend$stats[3,], pch=19, ylim=c(-2.0, 4), main="Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
+axis(1,seq(1,24,1), as.character(seq(0,23,1)))
+lines(bpl.weekend$stats[4,])
+lines(bpl.weekend$stats[2,])
+lines(bpl.weekend$stats[5,], col="gray")
+lines(bpl.weekend$stats[1,], col="gray")
+lines(bpl.weekend$stats[3,], col="red")
+lines(bpl.weekend$conf[1,], col="blue")
+lines(bpl.weekend$conf[2,], col="blue")
+lines(bpl.weekend$stats[3,], col="red", lw="2")
+points(bpl.weekend$stats[3,], pch=19)
+
+legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+                                  "   3rd Quartile",
+                                  "      Upper 95% Confidence Interval",
+						"         Median",
+						"      Lower 95% Confidence Interval",
+						"   1st Quartile",
+					"Smallest Non-outlier (> Median - 1.5*IQR)"),
+       fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
+
+
+plot(bpl.weekday$stats[3,], pch=19, ylim=c(-2.0, 4), main="Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
+axis(1,seq(1,24,1), as.character(seq(0,23,1)))
+lines(bpl.weekday$stats[4,])
+lines(bpl.weekday$stats[2,])
+lines(bpl.weekday$stats[5,], col="gray")
+lines(bpl.weekday$stats[1,], col="gray")
+lines(bpl.weekday$stats[3,], col="red")
+lines(bpl.weekday$conf[1,], col="blue")
+lines(bpl.weekday$conf[2,], col="blue")
+lines(bpl.weekday$stats[3,], col="red", lw="2")
+points(bpl.weekday$stats[3,], pch=19)
+
+legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+                                  "   3rd Quartile",
+                                  "      Upper 95% Confidence Interval",
+						"         Median",
+						"      Lower 95% Confidence Interval",
+						"   1st Quartile",
+					"Smallest Non-outlier (> Median - 1.5*IQR)"),
+       fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
+
+
+#####  for individual days -Monday
+
+dl.mon <- test_Mon$resid ~ test_Mon$hour
+bpl.mon=boxplot(dl.mon)
+
+plot(bpl.mon$stats[3,], pch=19, ylim=c(-2.0, 4), main="Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
+axis(1,seq(1,24,1), as.character(seq(0,23,1)))
+lines(bpl.mon$stats[4,])
+lines(bpl.mon$stats[2,])
+lines(bpl.mon$stats[5,], col="gray")
+lines(bpl.mon$stats[1,], col="gray")
+lines(bpl.mon$stats[3,], col="red")
+lines(bpl.mon$conf[1,], col="blue")
+lines(bpl.mon$conf[2,], col="blue")
+lines(bpl.mon$stats[3,], col="red", lw="2")
+points(bpl.mon$stats[3,], pch=19)
+
+legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+                                  "   3rd Quartile",
+                                  "      Upper 95% Confidence Interval",
+						"         Median",
+						"      Lower 95% Confidence Interval",
+						"   1st Quartile",
+					"Smallest Non-outlier (> Median - 1.5*IQR)"),
+       fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
+
+
+#####  for individual days -Tuesday
+
+dl.tue <- test_Tue$resid ~ test_Tue$hour
+bpl.tue=boxplot(dl.tue)
+
+plot(bpl.tue$stats[3,], pch=19, ylim=c(-2.0, 4), main="Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
+axis(1,seq(1,24,1), as.character(seq(0,23,1)))
+lines(bpl.tue$stats[4,])
+lines(bpl.tue$stats[2,])
+lines(bpl.tue$stats[5,], col="gray")
+lines(bpl.tue$stats[1,], col="gray")
+lines(bpl.tue$stats[3,], col="red")
+lines(bpl.tue$conf[1,], col="blue")
+lines(bpl.tue$conf[2,], col="blue")
+lines(bpl.tue$stats[3,], col="red", lw="2")
+points(bpl.tue$stats[3,], pch=19)
+
+legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+                                  "   3rd Quartile",
+                                  "      Upper 95% Confidence Interval",
+						"         Median",
+						"      Lower 95% Confidence Interval",
+						"   1st Quartile",
+					"Smallest Non-outlier (> Median - 1.5*IQR)"),
+       fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
+
+
+
+#####  for individual days -Wednesday
+
+dl.wed <- test_Wed$resid ~ test_Wed$hour
+bpl.wed=boxplot(dl.wed)
+
+plot(bpl.wed$stats[3,], pch=19, ylim=c(-2.0, 4), main="Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
+axis(1,seq(1,24,1), as.character(seq(0,23,1)))
+lines(bpl.wed$stats[4,])
+lines(bpl.wed$stats[2,])
+lines(bpl.wed$stats[5,], col="gray")
+lines(bpl.wed$stats[1,], col="gray")
+lines(bpl.wed$stats[3,], col="red")
+lines(bpl.wed$conf[1,], col="blue")
+lines(bpl.wed$conf[2,], col="blue")
+lines(bpl.wed$stats[3,], col="red", lw="2")
+points(bpl.wed$stats[3,], pch=19)
+
+legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+                                  "   3rd Quartile",
+                                  "      Upper 95% Confidence Interval",
+						"         Median",
+						"      Lower 95% Confidence Interval",
+						"   1st Quartile",
+					"Smallest Non-outlier (> Median - 1.5*IQR)"),
+       fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
+
+
+
+#####  for individual days -Thursday
+
+dl.thu <- test_Thu$resid ~ test_Thu$hour
+bpl.thu=boxplot(dl.thu)
+
+plot(bpl.thu$stats[3,], pch=19, ylim=c(-2.0, 4), main="Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
+axis(1,seq(1,24,1), as.character(seq(0,23,1)))
+lines(bpl.thu$stats[4,])
+lines(bpl.thu$stats[2,])
+lines(bpl.thu$stats[5,], col="gray")
+lines(bpl.thu$stats[1,], col="gray")
+lines(bpl.thu$stats[3,], col="red")
+lines(bpl.thu$conf[1,], col="blue")
+lines(bpl.thu$conf[2,], col="blue")
+lines(bpl.thu$stats[3,], col="red", lw="2")
+points(bpl.thu$stats[3,], pch=19)
+
+legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+                                  "   3rd Quartile",
+                                  "      Upper 95% Confidence Interval",
+						"         Median",
+						"      Lower 95% Confidence Interval",
+						"   1st Quartile",
+					"Smallest Non-outlier (> Median - 1.5*IQR)"),
+       fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
+
+
+
+#####  for individual days -Friday
+
+dl.fri <- test_Fri$resid ~ test_Fri$hour
+bpl.fri=boxplot(dl.fri)
+
+plot(bpl.fri$stats[3,], pch=19, ylim=c(-2.0, 4), main="Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
+axis(1,seq(1,24,1), as.character(seq(0,23,1)))
+lines(bpl.fri$stats[4,])
+lines(bpl.fri$stats[2,])
+lines(bpl.fri$stats[5,], col="gray")
+lines(bpl.fri$stats[1,], col="gray")
+lines(bpl.fri$stats[3,], col="red")
+lines(bpl.fri$conf[1,], col="blue")
+lines(bpl.fri$conf[2,], col="blue")
+lines(bpl.fri$stats[3,], col="red", lw="2")
+points(bpl.fri$stats[3,], pch=19)
+
+legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+                                  "   3rd Quartile",
+                                  "      Upper 95% Confidence Interval",
+						"         Median",
+						"      Lower 95% Confidence Interval",
+						"   1st Quartile",
+					"Smallest Non-outlier (> Median - 1.5*IQR)"),
+       fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
+
+
+
+
+#####  for individual days -Saturday
+
+dl.sat <- test_Sat$resid ~ test_Sat$hour
+bpl.sat=boxplot(dl.sat)
+
+plot(bpl.sat$stats[3,], pch=19, ylim=c(-2.0, 4), main="Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
+axis(1,seq(1,24,1), as.character(seq(0,23,1)))
+lines(bpl.sat$stats[4,])
+lines(bpl.sat$stats[2,])
+lines(bpl.sat$stats[5,], col="gray")
+lines(bpl.sat$stats[1,], col="gray")
+lines(bpl.sat$stats[3,], col="red")
+lines(bpl.sat$conf[1,], col="blue")
+lines(bpl.sat$conf[2,], col="blue")
+lines(bpl.sat$stats[3,], col="red", lw="2")
+points(bpl.sat$stats[3,], pch=19)
+
+legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+                                  "   3rd Quartile",
+                                  "      Upper 95% Confidence Interval",
+						"         Median",
+						"      Lower 95% Confidence Interval",
+						"   1st Quartile",
+					"Smallest Non-outlier (> Median - 1.5*IQR)"),
+       fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
+
+
+
+
+
+#####  for individual days -Sunday
+
+dl.sun <- test_Sun$resid ~ test_Sun$hour
+bpl.sun=boxplot(dl.sun)
+
+plot(bpl.sun$stats[3,], pch=19, ylim=c(-2.0, 4), main="Residual Download Times (100Kb file)", xlab="Hour of the Day", ylab="Residual (seconds)", type="o", xaxt="n")
+axis(1,seq(1,24,1), as.character(seq(0,23,1)))
+lines(bpl.sun$stats[4,])
+lines(bpl.sun$stats[2,])
+lines(bpl.sun$stats[5,], col="gray")
+lines(bpl.sun$stats[1,], col="gray")
+lines(bpl.sun$stats[3,], col="red")
+lines(bpl.sun$conf[1,], col="blue")
+lines(bpl.sun$conf[2,], col="blue")
+lines(bpl.sun$stats[3,], col="red", lw="2")
+points(bpl.sun$stats[3,], pch=19)
+
+legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+                                  "   3rd Quartile",
+                                  "      Upper 95% Confidence Interval",
+						"         Median",
+						"      Lower 95% Confidence Interval",
+						"   1st Quartile",
+					"Smallest Non-outlier (> Median - 1.5*IQR)"),
+       fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
+
+
+
 
 
