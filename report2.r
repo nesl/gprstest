@@ -437,8 +437,6 @@ legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
 
 
 
-
-
 #####  for individual days -Sunday
 
 dl.sun <- test_Sun$resid ~ test_Sun$hour
@@ -466,6 +464,11 @@ legend(.5, 10.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
        fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
 
 
-
-
-
+######
+niceplot(bpl.mon)
+niceplot(bpl.tue)
+niceplot(bpl.wed)
+niceplot(bpl.thu)
+niceplot(bpl.fri)
+niceplot(bpl.sat)
+niceplot(bpl.sun)
