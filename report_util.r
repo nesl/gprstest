@@ -104,3 +104,27 @@ niceplot <- function(data,title){
 					"Smallest Non-outlier (> Median - 1.5*IQR)"),
        fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
 }
+niceplot2 <- function(data,title){
+
+	plot(data$stats[3,], pch=19,ylim=c(-4,18), main=title, xlab="Signal Strength (-dBm)", ylab="Residual (seconds)", type="o", xaxt="n")
+	#axis(1,seq(1,24,1), as.character(seq(0,23,1)))
+        axis(1,seq(1,19,1), as.character(seq(80,98,1)))
+	lines(data$stats[4,])
+	lines(data$stats[2,])
+	lines(data$stats[5,], col="gray")
+	lines(data$stats[1,], col="gray")
+	lines(data$stats[3,], col="red")
+	lines(data$conf[1,], col="blue")
+	lines(data$conf[2,], col="blue")
+	lines(data$stats[3,], col="red", lw="2")
+	points(data$stats[3,], pch=19)
+
+	legend(.5, 15.5, legend = c("Largest Non-outlier (< Median + 1.5*IQR)",
+                                  "   3rd Quartile",
+                                  "      Upper 95% Confidence Interval",
+						"         Median",
+						"      Lower 95% Confidence Interval",
+						"   1st Quartile",
+					"Smallest Non-outlier (> Median - 1.5*IQR)"),
+       fill=c("gray", "black", "blue", "red", "blue", "black", "gray"), bg = "white")
+}

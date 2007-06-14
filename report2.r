@@ -1,6 +1,6 @@
-setwd("C:/cygwin/home/adparker/repositories/gprstest/trunk")
+setwd("/home/adparker/svn/gprstest")
 source("report_util.r")
-setwd("C:/cygwin/home/adparker/repositories/gprstest/trunk/data")
+setwd("/home/adparker/svn/gprstest/data")
 
 censlab <- get.split.table("censlab.txt")  ## Andrew's Desk
 attach(censlab$k1)
